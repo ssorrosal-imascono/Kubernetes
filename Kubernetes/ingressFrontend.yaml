@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-react-ingress
+  namespace: sergio
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/default-backend: ingress-nginx-controller
+spec:
+  tls:
+    - hosts:
+        - frontend-react.imascono.com
+      secretName: frontend-react-tls
+  rules:
+    - host: frontend-react.imascono.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-react-service
+                port:
+                  number: 3001
+status:
+  loadBalancer:
+    ingress:
+      - ip: 135.236.26.131

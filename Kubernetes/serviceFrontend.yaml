@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-react-service
+  namespace: sergio  
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend-react  
+  ports:
+  - protocol: TCP
+    port: 3001
+    targetPort: 80
